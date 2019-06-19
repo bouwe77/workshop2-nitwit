@@ -10,14 +10,11 @@ import Compose from "./Compose";
 
 function App() {
   const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   function addPost(content) {
     const prevPosts = posts;
 
     let newPost = { user: "bouwe", content };
-
     setPosts([newPost, ...posts]);
 
     newPost = { content };
@@ -26,7 +23,7 @@ function App() {
       .post("https://nitwit-api.azurewebsites.net/users/bouwe/posts", newPost)
       .catch(error => {
         setPosts(prevPosts);
-        handleError(error);
+        console.log(error, error.request, error.response, error.config);
       });
   }
 
@@ -35,21 +32,14 @@ function App() {
       axios
         .get("https://nitwit-api.azurewebsites.net/users/bouwe/timeline")
         .then(res => {
-          setIsLoaded(true);
           setPosts(res.data);
         })
         .catch(error => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error, error.request, error.response, error.config);
         });
     }
     getPosts();
-  }, []);
-
-  function handleError(error) {
-    console.log(error, error.request, error.response, error.config);
-    setError(error);
-  }
+  }, [setPosts]);
 
   return (
     <div className="App">
