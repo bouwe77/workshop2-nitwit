@@ -30,24 +30,25 @@ function App() {
       });
   }
 
-  useEffect(getPosts, []);
+  useEffect(() => {
+    function getPosts() {
+      axios
+        .get("https://nitwit-api.azurewebsites.net/users/bouwe/timeline")
+        .then(res => {
+          setIsLoaded(true);
+          setPosts(res.data);
+        })
+        .catch(error => {
+          setIsLoaded(true);
+          setError(error);
+        });
+    }
+    getPosts();
+  }, []);
 
   function handleError(error) {
     console.log(error, error.request, error.response, error.config);
     setError(error);
-  }
-
-  function getPosts() {
-    axios
-      .get("https://nitwit-api.azurewebsites.net/users/bouwe/timeline")
-      .then(res => {
-        setIsLoaded(true);
-        setPosts(res.data);
-      })
-      .catch(error => {
-        setIsLoaded(true);
-        setError(error);
-      });
   }
 
   return (

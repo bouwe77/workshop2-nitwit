@@ -5,8 +5,8 @@ import Post from "./Post";
 function Timeline(props) {
   return (
     <div>
-      {props.posts.map(post => (
-        <Post post={post} />
+      {props.posts.map((post, index) => (
+        <Post key={index} post={post} />
       ))}
     </div>
   );
